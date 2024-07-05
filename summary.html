@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Summary</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Form Summary</h1>
+        <div id="summaryContent"></div>
+        <button id="downloadButton">More</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const summaryContent = document.getElementById("summaryContent");
+            summaryContent.innerHTML = localStorage.getItem("formSummary");
+
+            document.getElementById("downloadButton").addEventListener("click", function() {
+                const password = prompt("Enter password to download the Excel file:");
+                if (password === "yourPassword") { // Replace "yourPassword" with your actual password
+                    window.location.href = "/downloadExcel";
+                } else {
+                    alert("Incorrect password");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

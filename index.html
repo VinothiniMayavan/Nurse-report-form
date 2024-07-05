@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nurse Report Form</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Nurse Report Form</h1>
+        <form id="nurseForm" action="/submitForm" method="post" onsubmit="generateSummary()">
+            <label for="dateTime">Date and Time:</label>
+            <input type="text" id="dateTime" name="dateTime" readonly><br><br>
+
+            <label for="nurseName">Name of the Nurse:</label>
+            <input type="text" id="nurseName" name="nurseName" required><br><br>
+
+            <label for="manualBP">Manual BP:</label>
+            <input type="text" id="manualBP" name="manualBP" pattern="^\d+/\d+$" required><br><br>
+
+            <label for="spo2">Add SPO2:</label>
+            <input type="number" id="spo2" name="spo2" required><br><br>
+
+            <label for="oxygenLtr">Oxygen ltr:</label>
+            <select id="oxygenLtr" name="oxygenLtr" required>
+                <option value="0.5">1/2</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select><br><br>
+
+            <label for="roomAirSpo2">Room air SPO2:</label>
+            <input type="number" id="roomAirSpo2" name="roomAirSpo2" required><br><br>
+
+            <label for="pulseRate">Pulse Rate:</label>
+            <input type="number" id="pulseRate" name="pulseRate" required><br><br>
+
+            <label for="intakeMl">Intake (ml):</label>
+            <input type="number" id="intakeMl" name="intakeMl" required><br><br>
+
+            <label for="outputMl">Output (ml):</label>
+            <input type="number" id="outputMl" name="outputMl" required><br><br>
+
+            <label for="oralIntakeDetails">Oral Intake Details:</label>
+            <textarea id="oralIntakeDetails" name="oralIntakeDetails" required></textarea><br><br>
+
+            <label for="proteinShake">Protein Shake:</label>
+            <select id="proteinShake" name="proteinShake" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select><br><br>
+
+            <label for="alertness">Alertness:</label>
+            <select id="alertness" name="alertness" required>
+                <option value="active">Active</option>
+                <option value="slightlyDrowsy">Slightly Drowsy</option>
+                <option value="veryDrowsy">Very Drowsy</option>
+            </select><br><br>
+
+            <label for="obeyingCommands">Obeying Commands:</label>
+            <select id="obeyingCommands" name="obeyingCommands" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select><br><br>
+
+            <label for="physioTherapy">Physio Therapy:</label>
+            <select id="physioTherapy" name="physioTherapy" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select><br><br>
+
+            <label for="glucoseValue">Glucose Value:</label>
+            <input type="number" id="glucoseValue" name="glucoseValue" required><br><br>
+
+            <label for="medicationGiven">Medication Given:</label>
+            <textarea id="medicationGiven" name="medicationGiven" required></textarea><br><br>
+
+            <label for="outOfBed">Out of Bed Mobilized:</label>
+            <select id="outOfBed" name="outOfBed" required>
+                <option value="0">0 Hr</option>
+                <option value="1">1 Hr</option>
+                <option value="2">2 Hrs</option>
+                <option value="3">3 Hrs</option>
+                <option value="4">4+ Hrs</option>
+            </select><br><br>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const dateTimeField = document.getElementById("dateTime");
+            const now = new Date();
+            dateTimeField.value = now.toLocaleString();
+        });
+
+        function generateSummary() {
+            const form = document.getElementById("nurseForm");
+            const formData = new FormData(form);
+            const summary = {
+                "Date and Time": formData.get("dateTime"),
+                "Name of the Nurse": formData.get("nurseName"),
+                "Manual BP": formData.get("manualBP"),
+                "SPO2": formData.get("spo2"),
+                "Oxygen ltr": formData.get("oxygenLtr"),
+                "Room air SPO2": formData.get("roomAirSpo2"),
+                "Pulse Rate": formData.get("pulseRate"),
+                "Intake (ml)": formData.get("intakeMl"),
+                "Output (ml)": formData.get("outputMl"),
+                "Oral Intake Details": formData.get("oralIntakeDetails"),
+                "Protein Shake": formData.get("proteinShake"),
+                "Alertness": formData.get("alertness"),
+                "Obeying Commands": formData.get("obeyingCommands"),
+                "Physio Therapy": formData.get("physioTherapy"),
+                "Glucose Value": formData.get("glucoseValue"),
+                "Medication Given": formData.get("medicationGiven"),
+                "Out of Bed Mobilized": formData.get("outOfBed"),
+            };
+
+            let summaryHTML = `<h2>Summary</h2>`;
+            for (const [key, value] of Object.entries(summary)) {
+                summaryHTML += `<p><strong>${key}:</strong> ${value}</p>`;
+            }
+
+            localStorage.setItem("formSummary", summaryHTML);
+        }
+    </script>
+</body>
+</html>
